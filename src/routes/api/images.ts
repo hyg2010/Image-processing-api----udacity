@@ -18,17 +18,19 @@ try {
 }}); 
 
 try {
-   const imageResize = sharp()
+const imageResize = sharp()
   .resize({
-    width: 200,
-    height: 200,
+    width:  width,
+    height: height,
     fit: sharp.fit.cover,
     position: sharp.strategy.entropy
   });
 
-
+  res.sendFile('outputFile');
+  
 } catch (error) {
-    res.status(400).send('Oops, something went wrong, images cannot be resized')
-}
+   res.status(400).send('Oops, something went wrong, images cannot be resized')
+}}
+
 
 export default images; 
