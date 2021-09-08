@@ -7,19 +7,10 @@ const request = supertest(app);
 
 
 
-describe('Test endpoint responses', () => {
-    it('gets the api endpoint', async (done) => {
-        const response = await request.get('/api');
-        expect(response.status).toBe(200);
-        done();
-    }
-);});
-
-
-//test for invalid parameters on images for width + height
-it('invalid parameters on api/images endpoint returns 400', async () => {
+//test for successful resized image
+it('tesing endpoint for resized images', async () => {
     const response = await request.get('/api/images');
-    expect(response.status).toBe(400);
+    expect(response.status).toBe(200);
   });
   
 
@@ -34,4 +25,3 @@ it('invalid parameters on api/images endpoint returns 400', async () => {
         expect(imageResize).toBeGreaterThan(0);
     })
  });
-  
