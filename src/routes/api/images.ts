@@ -1,21 +1,21 @@
-import express, { request, response } from 'express';
+import express from 'express';
 const images = express.Router();
 import fs from 'fs';
-import res from 'express/lib/response';
-import sharp from 'sharp'
+import sharp from 'sharp'; 
+import imageResize from '../../utilities/imageResize'
+import path from 'path';
 
-
-
-
-images.get("/", (req: express.Request, res: express.Response) => {
-
+images.get('/'), (req: express.Request, res: express.Response) => {
+  const height: number = Number(req.query.height || 200);
+  const width: number = Number(req.query.width || 200);
+  
 try {
   fs.accessSync('inputFile/outputFile', fs.constants.R_OK | fs.constants.W_OK);
-  res.status(200).send('image found')
+  res.status(200).send('image succesfully resized');
 } catch (error) {
   res.status(400).send('no access to image!');
 
-}}); 
+}
 
 try {
 const imageResize = sharp()
@@ -26,11 +26,15 @@ const imageResize = sharp()
     position: sharp.strategy.entropy
   });
 
-  res.sendFile('outputFile');
+  res.sendFile(path.join(__dirname, '../images/thumb'));
   
 } catch (error) {
-   res.status(400).send('Oops, something went wrong, images cannot be resized')
-}}
+   res.status(400).send('Oops, something went wrong, images cannot be resized');
+}};
 
 
-export default images; 
+
+export default images;
+
+
+
