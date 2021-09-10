@@ -8,8 +8,9 @@ import path from 'path';
 images.get('/'), (req: express.Request, res: express.Response) => {
   const height: number = Number(req.query.height || 200);
   const width: number = Number(req.query.width || 200);
-  
-try {
+  const filename = req.query.filename as string; 
+
+ try {
   fs.accessSync('inputFile/outputFile', fs.constants.R_OK | fs.constants.W_OK);
   res.status(200).send('image succesfully resized');
 } catch (error) {
