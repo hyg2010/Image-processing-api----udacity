@@ -9,8 +9,9 @@ app.use('/api', routes);
 const port = 4000;
 
 // listen
-app.listen(port, () => { 
-    console.log(`server started at http://localhost:${port}`)});
+app.listen(port, () => {
+    console.log(`server started at http://localhost:${port}`);
+});
 
 
 

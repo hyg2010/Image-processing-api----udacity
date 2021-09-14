@@ -20,7 +20,7 @@ images.get('/'), function (req, res) {
         res.status(400).send('no access to image!');
     }
     try {
-        var imageResize_1 = sharp_1.default()
+        var imageResize_1 = (0, sharp_1.default)()
             .resize({
             width: width,
             height: height,

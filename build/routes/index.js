@@ -8,7 +8,7 @@ var images_1 = __importDefault(require("./api/images"));
 var routes = express_1.default.Router();
 // define a route handler 
 routes.get('/images', function (req, res) {
-    res.send('Image is Resizing');
+    res.send('image is resizing');
 });
 routes.use('/images', images_1.default);
 exports.default = routes;

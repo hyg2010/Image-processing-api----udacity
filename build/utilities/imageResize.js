@@ -52,7 +52,7 @@ var imageResize = function (fileName, width, height) { return __awaiter(void 0, 
                 if (!fs_1.default.existsSync(path_1.default.join(__dirname, '../../', outputFile))) return [3 /*break*/, 1];
                 console.log('cached image');
                 return [2 /*return*/, outputFile];
-            case 1: return [4 /*yield*/, sharp_1.default(inputFile).resize(width, height).jpeg().toFile(outputFile)];
+            case 1: return [4 /*yield*/, (0, sharp_1.default)(inputFile).resize(width, height).jpeg().toFile(outputFile)];
             case 2:
                 _a.sent();
                 console.log('image successfully resized');

@@ -43,8 +43,9 @@ var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../../index"));
 var imageResize_1 = __importDefault(require("../../utilities/imageResize"));
 var fs_1 = __importDefault(require("fs"));
+var imageResize_2 = __importDefault(require("../../utilities/imageResize"));
 //test api route
-var request = supertest_1.default(index_1.default);
+var request = (0, supertest_1.default)(index_1.default);
 //test for successful resized endpoint with query parameters
 it('testing endpoint for resized images', function () { return __awaiter(void 0, void 0, void 0, function () {
     var response;
@@ -81,10 +82,10 @@ describe('testing imageResizer Image Processor', function () {
             switch (_a.label) {
                 case 0:
                     fs_1.default.accessSync('images', fs_1.default.constants.R_OK | fs_1.default.constants.W_OK);
-                    return [4 /*yield*/, imageResize_1.default(filename, width, height)];
+                    return [4 /*yield*/, (0, imageResize_1.default)(filename, width, height)];
                 case 1:
                     _a.sent();
-                    expect('outputFile').toBeTruthy();
+                    expect(imageResize_2.default).toEqual('filename=fjord.jpg&width=500&height=500');
                     return [2 /*return*/];
             }
         });
