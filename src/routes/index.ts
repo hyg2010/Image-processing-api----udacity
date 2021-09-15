@@ -6,8 +6,8 @@ const routes = express.Router();
 
 
 // define a route handler 
-routes.get('/images', (req: express.Request, res: express.Response) => {
-    res.send('image is resizing');
+routes.get('/', (req: express.Request, res: express.Response) => {
+    res.send('Resizing API');
 });
 
 routes.use('/images', images);
