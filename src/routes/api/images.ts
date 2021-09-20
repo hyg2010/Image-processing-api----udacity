@@ -1,41 +1,52 @@
 import express from 'express';
-import fs from 'fs';
 import imageResize from '../../utilities/imageResize';
 import path from 'path';
+import fs, { existsSync } from 'fs';
 
 
 const images = express.Router();
 
+images.get('/', async (req: express.Request, res: express.Response): Promise<void> => {
+    const height = (req.query.width as unknown) as number;
+    const width = (req.query.height as unknown) as number;
+    const fileName = req.query.fileName as string;
 
-//check if parameters are good, if not send back error message
-images.get('/'), async (req: express.Request, res: express.Response) => {
-  const height: number = Number(req.query.height || 200);
-  const width: number = Number(req.query.width || 200);
-  const fileName = req.query.filename as string;
+    const sourceFile = `images/full/${fileName}.jpg`;
+    const outputFolder = path.join(__dirname, '../../images/thumb', `${fileName}-${width}-${height}.jpg`);
 
-  let thumbPath: string =
-    path.resolve(__dirname, '../', '../', 'images/', 'thumb/', fileName) + `-${width}-${height}.jpg`;
-
-  if (fs.statSync(thumbPath)) {
-    res.sendFile(thumbPath);
-  } else {
-    const resizeImage = await imageResize(
-      fileName as string,
-      width,
-      height
-    );
-    if (!resizeImage) {
-      res.status(200).sendFile(resizeImage)
-    } else {
-      if (width < 0 && height < 0) {
-        res.status(404).send('Please provide a valid number for the width & height')
-      }
+    //Check if Parameters are valid, if not send back error message
+    if (!req.query.fileName && !req.query.width && req.query.height) {
+        res.status(404).send('Error,Please provide a valid file, image width, and image height')
     }
+    //Check if the filename has a source folder.
 
+    try {
+        fs.existsSync(sourceFile);
+        console.log('file or directory exists');
+    } catch (err) {
+        if (err) {
+            console.log('file or directory does not exist');
+        }
 
-  };
-
+    }
+    //check if cached version exist or not
+    if (existsSync(outputFolder)) {
+        console.log('folder exist')
+    } else {
+        try {
+            await imageResize(fileName, height, width)
+                .then((outputFolder) => {
+                    res.sendFile(outputFolder);
+                }
+                );
+        } catch (err) {
+            res.status(500).send('invalid width and height, please try again')
+        }
+    }
 }
+
+);
+
 
 
 export default images;

@@ -45,7 +45,7 @@ var imageResize_1 = __importDefault(require("../../utilities/imageResize"));
 var path_1 = __importDefault(require("path"));
 var images = express_1.default.Router();
 //check if parameters are good, if not send back error message
-images.get('/'), function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
+images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
     var height, width, fileName, thumbPath, resizeImage;
     return __generator(this, function (_a) {
         switch (_a.label) {
@@ -60,10 +60,19 @@ images.get('/'), function (req, res) { return __awaiter(void 0, void 0, void 0, 
             case 1: return [4 /*yield*/, (0, imageResize_1.default)(fileName, width, height)];
             case 2:
                 resizeImage = _a.sent();
-                res.sendFile(resizeImage);
+                if (!resizeImage) {
+                    res.status(200).sendFile(resizeImage);
+                }
+                else {
+                    if (width < 0 && height < 0) {
+                        res.status(404).send('Please provide a valid number for the width & height');
+                    }
+                }
                 _a.label = 3;
-            case 3: return [2 /*return*/];
+            case 3:
+                ;
+                return [2 /*return*/];
         }
     });
-}); };
+}); });
 exports.default = images;
