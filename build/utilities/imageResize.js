@@ -39,8 +39,6 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-var path_1 = __importDefault(require("path"));
-var fs_1 = __importDefault(require("fs"));
 var sharp_1 = __importDefault(require("sharp"));
 var imageResize = function (fileName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
     var inputFile, outputFile;
@@ -49,11 +47,8 @@ var imageResize = function (fileName, width, height) { return __awaiter(void 0, 
             case 0:
                 inputFile = "images/full/" + fileName + ".jpg";
                 outputFile = "images/thumb/" + fileName + "-resized-" + width + "-" + height + ".jpg";
-                if (!fs_1.default.existsSync(path_1.default.join(__dirname, '../../', outputFile))) return [3 /*break*/, 1];
-                console.log('cached image');
-                return [2 /*return*/, outputFile];
-            case 1: return [4 /*yield*/, (0, sharp_1.default)(inputFile).resize(width, height).jpeg().toFile(outputFile)];
-            case 2:
+                return [4 /*yield*/, (0, sharp_1.default)(inputFile).resize(width, height).jpeg().toFile(outputFile)];
+            case 1:
                 _a.sent();
                 console.log('image successfully resized');
                 return [2 /*return*/, outputFile];

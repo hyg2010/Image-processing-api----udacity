@@ -1,4 +1,23 @@
 "use strict";
+var __createBinding = (this && this.__createBinding) || (Object.create ? (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    Object.defineProperty(o, k2, { enumerable: true, get: function() { return m[k]; } });
+}) : (function(o, m, k, k2) {
+    if (k2 === undefined) k2 = k;
+    o[k2] = m[k];
+}));
+var __setModuleDefault = (this && this.__setModuleDefault) || (Object.create ? (function(o, v) {
+    Object.defineProperty(o, "default", { enumerable: true, value: v });
+}) : function(o, v) {
+    o["default"] = v;
+});
+var __importStar = (this && this.__importStar) || function (mod) {
+    if (mod && mod.__esModule) return mod;
+    var result = {};
+    if (mod != null) for (var k in mod) if (k !== "default" && Object.prototype.hasOwnProperty.call(mod, k)) __createBinding(result, mod, k);
+    __setModuleDefault(result, mod);
+    return result;
+};
 var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
     function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
     return new (P || (P = Promise))(function (resolve, reject) {
@@ -40,38 +59,49 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var express_1 = __importDefault(require("express"));
-var fs_1 = __importDefault(require("fs"));
 var imageResize_1 = __importDefault(require("../../utilities/imageResize"));
 var path_1 = __importDefault(require("path"));
+var fs_1 = __importStar(require("fs"));
 var images = express_1.default.Router();
-//check if parameters are good, if not send back error message
 images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var height, width, fileName, thumbPath, resizeImage;
+    var height, width, fileName, sourceFile, cachePath, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                height = Number(req.query.height || 200);
-                width = Number(req.query.width || 200);
-                fileName = req.query.filename;
-                thumbPath = path_1.default.resolve(__dirname, '../', '../', 'images/', 'thumb/', fileName) + ("-" + width + "-" + height + ".jpg");
-                if (!fs_1.default.statSync(thumbPath)) return [3 /*break*/, 1];
-                res.sendFile(thumbPath);
-                return [3 /*break*/, 3];
-            case 1: return [4 /*yield*/, (0, imageResize_1.default)(fileName, width, height)];
-            case 2:
-                resizeImage = _a.sent();
-                if (!resizeImage) {
-                    res.status(200).sendFile(resizeImage);
+                height = req.query.width;
+                width = req.query.height;
+                fileName = req.query.fileName;
+                sourceFile = "images/full/" + fileName + ".jpg";
+                cachePath = path_1.default.join(__dirname, '../../images/thumb', fileName + "-" + width + "-" + height + ".jpg");
+                //Check if Parameters are valid, if not send back error message
+                if (!req.query.fileName && !req.query.width && req.query.height) {
+                    res.status(404).send('Error,Please provide a valid file, image width, and image height');
                 }
-                else {
-                    if (width < 0 && height < 0) {
-                        res.status(404).send('Please provide a valid number for the width & height');
+                //Check if the filename has a source folder.
+                try {
+                    fs_1.default.existsSync(sourceFile);
+                    console.log('file or directory exists');
+                }
+                catch (err) {
+                    if (err) {
+                        console.log('file or directory does not exist');
                     }
                 }
-                _a.label = 3;
+                if (!(0, fs_1.existsSync)(cachePath)) return [3 /*break*/, 1];
+                console.log('folder exist');
+                return [3 /*break*/, 4];
+            case 1:
+                _a.trys.push([1, 3, , 4]);
+                return [4 /*yield*/, (0, imageResize_1.default)(fileName, height, width)];
+            case 2:
+                _a.sent();
+                res.sendFile(cachePath);
+                return [3 /*break*/, 4];
             case 3:
-                ;
-                return [2 /*return*/];
+                err_1 = _a.sent();
+                res.status(500).send('invalid width and height, please try again');
+                return [3 /*break*/, 4];
+            case 4: return [2 /*return*/];
         }
     });
 }); });
