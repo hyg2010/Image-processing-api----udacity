@@ -42,16 +42,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var supertest_1 = __importDefault(require("supertest"));
 var index_1 = __importDefault(require("../../index"));
 var imageResize_1 = __importDefault(require("../../utilities/imageResize"));
-var fs_1 = __importDefault(require("fs"));
-var imageResize_2 = __importDefault(require("../../utilities/imageResize"));
 //test api route
 var request = (0, supertest_1.default)(index_1.default);
 //test for successful resized endpoint with query parameters
-it('testing endpoint for resized images', function () { return __awaiter(void 0, void 0, void 0, function () {
+it('testing endpoint for invalid width and height', function () { return __awaiter(void 0, void 0, void 0, function () {
     var response;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, request.get('/api/images?filename=fjord.jpg&width=200&height=200')];
+            case 0: return [4 /*yield*/, request.get('/api/images?fileName=fjord&width=-5&height=-50')];
+            case 1:
+                response = _a.sent();
+                expect(response.status).toBe(500);
+                return [2 /*return*/];
+        }
+    });
+}); });
+//test endpoint for invalid parameter response
+it('testing endpoint for valid parameters', function () { return __awaiter(void 0, void 0, void 0, function () {
+    var response;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, request.get('/api/?filename=fjord.jpg&width=200&height=200')];
             case 1:
                 response = _a.sent();
                 expect(response.status).toBe(200);
@@ -59,33 +70,22 @@ it('testing endpoint for resized images', function () { return __awaiter(void 0,
         }
     });
 }); });
-//test endpoint for invalid parameter response
-it('testing endpoint for invalid parameters', function () { return __awaiter(void 0, void 0, void 0, function () {
-    var response;
-    return __generator(this, function (_a) {
-        switch (_a.label) {
-            case 0: return [4 /*yield*/, request.get('/api/?filename=&width=0&height=0')];
-            case 1:
-                response = _a.sent();
-                expect(response.status).toBe(404);
-                return [2 /*return*/];
-        }
-    });
-}); });
 //image processing function test 
-describe('testing imageResizer Image Processor', function () {
-    var filename = 'fjord';
+describe('test image processing function', function () {
+    var fileName = 'fjord';
     var height = 500;
     var width = 500;
-    it('checks if the image file exist', function () { return __awaiter(void 0, void 0, void 0, function () {
+    var outputFile = "images/thumb/" + fileName + "-resized-" + width + "-" + height + ".jpg";
+    it('checks if the file exist in the cache after resizing', function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0:
-                    fs_1.default.accessSync('images', fs_1.default.constants.R_OK | fs_1.default.constants.W_OK);
-                    return [4 /*yield*/, (0, imageResize_1.default)(filename, width, height)];
+                case 0: return [4 /*yield*/, (0, imageResize_1.default)(fileName, width, height)];
                 case 1:
                     _a.sent();
-                    expect(imageResize_2.default).toEqual('filename=fjord.jpg&width=500&height=500');
+                    return [4 /*yield*/, request.get('/api/?filename=fjord&width=500&height=500')];
+                case 2:
+                    _a.sent();
+                    expect(outputFile).toEqual('images/thumb/fjord-resized-500-500.jpg');
                     return [2 /*return*/];
             }
         });

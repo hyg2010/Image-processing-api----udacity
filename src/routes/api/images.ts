@@ -16,7 +16,7 @@ images.get('/', async (req: express.Request, res: express.Response): Promise<voi
 
     //Check if Parameters are valid, if not send back error message
     if (!req.query.fileName && !req.query.width && !req.query.height) {
-        res.status(404).send('Error,Please provide a valid file, image width, and image height')
+        res.status(404).send('Error,Please provide a valid file, image width, and image height');
     }
 
     //Check if the filename has a source folder.
@@ -32,13 +32,13 @@ images.get('/', async (req: express.Request, res: express.Response): Promise<voi
     }
     //check if cached version exist or not
     if (existsSync(cachePath)) {
-        console.log('folder exist')
+        console.log('folder exist');
     } else {
         try {
-            await imageResize(fileName, height, width)
+            await imageResize(fileName, height, width);
             res.sendFile(cachePath);
         } catch (err) {
-            res.status(500).send('invalid width and height, please try again')
+            res.status(500).send('invalid width and height, please try again');
         }
     }
 }

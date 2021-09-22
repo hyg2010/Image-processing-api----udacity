@@ -2,18 +2,19 @@
 
 ## Overview
 
-Create an image processing API to resize images to specific parameters (width X height)
+Create an image processing API to resize images provided by the client user. The image is resized by uploading a file and resizing the width and height. 
 
-## Install all dependencies, run command 
+## Install all dependencies from package.json
     -$ npm install 
     
 ## Build
   "npm run build" will compile the typescript code into the javascript build folder.
+  
 ## Tools and Resources Used
 
 1. Typescript
 
-2. Express
+2. Express for routers
 
 3. Jasmine- (Unit Testing)
 
@@ -26,21 +27,29 @@ Create an image processing API to resize images to specific parameters (width X 
 7. Supertest (For testing with Jasmine)
 
 
-## Starting the Server
+## Starting the Server & resizing the image on the endpoint 
   -"NPM RUN START"-- This will start the server at http://localhost:4000 
   
- ## Testing
-  -"Npm Run Test" to start test with Jasmine and build the JS folder from Typescript
-  -Test if the images resizes from the images/full folder and resized to the output folder (images/thumbs)
-  -Test endpoints for resized images by calling parameters and response status should always be 200. 
-  -invalid parameters should respond with 404 error. 
-  
- ## Endpoint
- The resizing endpoint URl will contain the local host 4000 and the paramters of width + height
-    http://localhost:4000/imageResize?w=<width>&h=<height>&image=<filename>
-  This endpoint is used to resize the images from the images/full folder into the images/thumbs folder. It will save the resized image in the folder. 
+  -Once the server is started, you can resize the image by typing in a filename (jpg), width, and height. Width and height need to be positive or else you will get an error.
+
+  i.e http://localhost:4000/api/images?fileName=fjord&width=500&height=500
+
+  --The example above will resize the image to 500 x 500. 
 
   
+ ## Testing (Jasmine + lint) Endpoint Testing and Image Resizing Testing
+
+ -Start the jasmine test by typing "npm run test" 
+
+-Jasmine is used to test the api endpoints and imageresize function.
+
+## Endpoint Testing
+-The first test includes testing the endpoint for a client inputting an invalid width and height. This should result in a 500 error message 
+
+-The second test includes testing the endpoint for a valid width + height. This should result to the response status of 200 on the browser. 
+
+-The third test includes the imageresizing function test with sharp. This should test to see if the resized image shows up in the cache folder. 
+ 
  ## Attribution 
 
 -https://sharp.pixelplumbing.com/api-resize

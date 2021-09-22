@@ -68,13 +68,13 @@ images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                height = req.query.width;
-                width = req.query.height;
+                height = parseInt(req.query.width);
+                width = parseInt(req.query.width);
                 fileName = req.query.fileName;
                 sourceFile = "images/full/" + fileName + ".jpg";
                 cachePath = path_1.default.join(__dirname, '../../images/thumb', fileName + "-" + width + "-" + height + ".jpg");
                 //Check if Parameters are valid, if not send back error message
-                if (!req.query.fileName && !req.query.width && req.query.height) {
+                if (!req.query.fileName && !req.query.width && !req.query.height) {
                     res.status(404).send('Error,Please provide a valid file, image width, and image height');
                 }
                 //Check if the filename has a source folder.
@@ -84,7 +84,7 @@ images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 }
                 catch (err) {
                     if (err) {
-                        console.log('file or directory does not exist');
+                        // console.log('file or directory does not exist');
                     }
                 }
                 if (!(0, fs_1.existsSync)(cachePath)) return [3 /*break*/, 1];
