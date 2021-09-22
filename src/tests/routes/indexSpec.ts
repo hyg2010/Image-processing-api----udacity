@@ -24,15 +24,13 @@ it('testing endpoint for valid parameters', async () => {
 //image processing function test 
 
 describe('test image processing function', () => {
-  const fileName = 'fjord';
-  const height = 500;
-  const width = 500;
-  const outputFile = `images/thumb/${fileName}-resized-${width}-${height}.jpg`;
+  const filename = 'fjord';
+  const height = 600;
+  const width = 600;
 
-  it('checks if the file exist in the cache after resizing', async () => {
-    await imageResize(fileName, width, height);
-    await request.get('/api/?filename=fjord&width=500&height=500');
-    expect(outputFile).toEqual('images/thumb/fjord-resized-500-500.jpg');
+  it('checks if the file exist that the resizing function creates', async () => {
+    const imageFile = await imageResize(filename, width, height);
+    expect(imageFile).toEqual('images/thumb/fjord-600-600.jpg');
   });
 });
 

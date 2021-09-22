@@ -40,13 +40,13 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 var sharp_1 = __importDefault(require("sharp"));
-var imageResize = function (fileName, width, height) { return __awaiter(void 0, void 0, void 0, function () {
+var imageResize = function (filename, width, height) { return __awaiter(void 0, void 0, void 0, function () {
     var inputFile, outputFile;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                inputFile = "images/full/" + fileName + ".jpg";
-                outputFile = "images/thumb/" + fileName + "-resized-" + width + "-" + height + ".jpg";
+                inputFile = "images/full/" + filename + ".jpg";
+                outputFile = "images/thumb/" + filename + "-" + width + "-" + height + ".jpg";
                 return [4 /*yield*/, (0, sharp_1.default)(inputFile).resize(width, height).jpeg().toFile(outputFile)];
             case 1:
                 _a.sent();

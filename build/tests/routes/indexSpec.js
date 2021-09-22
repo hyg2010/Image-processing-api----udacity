@@ -72,20 +72,17 @@ it('testing endpoint for valid parameters', function () { return __awaiter(void 
 }); });
 //image processing function test 
 describe('test image processing function', function () {
-    var fileName = 'fjord';
-    var height = 500;
-    var width = 500;
-    var outputFile = "images/thumb/" + fileName + "-resized-" + width + "-" + height + ".jpg";
-    it('checks if the file exist in the cache after resizing', function () { return __awaiter(void 0, void 0, void 0, function () {
+    var filename = 'fjord';
+    var height = 600;
+    var width = 600;
+    it('checks if the file exist that the resizing function creates', function () { return __awaiter(void 0, void 0, void 0, function () {
+        var imageFile;
         return __generator(this, function (_a) {
             switch (_a.label) {
-                case 0: return [4 /*yield*/, (0, imageResize_1.default)(fileName, width, height)];
+                case 0: return [4 /*yield*/, (0, imageResize_1.default)(filename, width, height)];
                 case 1:
-                    _a.sent();
-                    return [4 /*yield*/, request.get('/api/?filename=fjord&width=500&height=500')];
-                case 2:
-                    _a.sent();
-                    expect(outputFile).toEqual('images/thumb/fjord-resized-500-500.jpg');
+                    imageFile = _a.sent();
+                    expect(imageFile).toEqual('images/thumb/fjord-600-600.jpg');
                     return [2 /*return*/];
             }
         });

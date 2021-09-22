@@ -1,12 +1,12 @@
 import sharp from 'sharp';
 
 const imageResize = async (
-  fileName: string,
+  filename: string,
   width: number,
   height: number
 ): Promise<string> => {
-  const inputFile = `images/full/${fileName}.jpg`;
-  const outputFile = `images/thumb/${fileName}-resized-${width}-${height}.jpg`;
+  const inputFile = `images/full/${filename}.jpg`;
+  const outputFile = `images/thumb/${filename}-${width}-${height}.jpg`;
 
 
   await sharp(inputFile).resize(width, height).jpeg().toFile(outputFile);

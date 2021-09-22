@@ -64,18 +64,28 @@ var path_1 = __importDefault(require("path"));
 var fs_1 = __importStar(require("fs"));
 var images = express_1.default.Router();
 images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, function () {
-    var height, width, fileName, sourceFile, cachePath, err_1;
+    var height, width, filename, sourceFile, cachePath, err_1;
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
                 height = parseInt(req.query.width);
                 width = parseInt(req.query.width);
-                fileName = req.query.fileName;
-                sourceFile = "images/full/" + fileName + ".jpg";
-                cachePath = path_1.default.join(__dirname, '../../images/thumb', fileName + "-" + width + "-" + height + ".jpg");
+                filename = req.query.filename;
+                sourceFile = "images/full/" + filename + ".jpg";
+                cachePath = path_1.default.join(__dirname, '../../../images/thumb', filename + "-" + width + "-" + height + ".jpg");
                 //Check if Parameters are valid, if not send back error message
                 if (!req.query.fileName && !req.query.width && !req.query.height) {
                     res.status(404).send('Error,Please provide a valid file, image width, and image height');
+                }
+                else {
+                    if (Number(req.query.height) && Number(req.query.width) <= 0) {
+                        console.log('Please input a positive width + height');
+                    }
+                    else {
+                        if (Number(req.query.width) && Number(req.query.height) <= 0) {
+                            console.log('Please input a positive width + height');
+                        }
+                    }
                 }
                 //Check if the filename has a source folder.
                 try {
@@ -84,7 +94,7 @@ images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 }
                 catch (err) {
                     if (err) {
-                        // console.log('file or directory does not exist');
+                        console.log('file or directory does not exist');
                     }
                 }
                 if (!(0, fs_1.existsSync)(cachePath)) return [3 /*break*/, 1];
@@ -92,7 +102,7 @@ images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                 return [3 /*break*/, 4];
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, imageResize_1.default)(fileName, height, width)];
+                return [4 /*yield*/, (0, imageResize_1.default)(filename, height, width)];
             case 2:
                 _a.sent();
                 res.sendFile(cachePath);
