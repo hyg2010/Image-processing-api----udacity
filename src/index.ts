@@ -10,10 +10,7 @@ const port = 4000;
 
 // listen
 app.listen(port, () => {
-    console.log(`server started at http://localhost:${port}`);
+  console.log(`server started at http://localhost:${port}`);
 });
 
-
-
 export default app;
-
