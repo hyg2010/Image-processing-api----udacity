@@ -9,7 +9,7 @@ const request = supertest(app);
 //test for successful resized endpoint with query parameters
 
 it('testing endpoint for invalid width and height', async () => {
-  const response = await request.get('/api/images?fileName=fjord&width=-5&height=-50');
+  const response = await request.get('/api/images?filename=fjord&width=-5&height=-50');
   expect(response.status).toBe(500);
 });
 

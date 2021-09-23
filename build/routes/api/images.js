@@ -68,13 +68,13 @@ images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
     return __generator(this, function (_a) {
         switch (_a.label) {
             case 0:
-                height = parseInt(req.query.width);
+                height = parseInt(req.query.height);
                 width = parseInt(req.query.width);
                 filename = req.query.filename;
-                sourceFile = "images/full/" + filename + ".jpg";
+                sourceFile = path_1.default.join(__dirname, '../../../images/full', "/" + filename + ".jpg");
                 cachePath = path_1.default.join(__dirname, '../../../images/thumb', filename + "-" + width + "-" + height + ".jpg");
                 //Check if Parameters are valid, if not send back error message
-                if (!req.query.fileName && !req.query.width && !req.query.height) {
+                if (!req.query.filename && !req.query.width && !req.query.height) {
                     res.status(404).send('Error,Please provide a valid file, image width, and image height');
                 }
                 else {
@@ -98,18 +98,18 @@ images.get('/', function (req, res) { return __awaiter(void 0, void 0, void 0, f
                     }
                 }
                 if (!(0, fs_1.existsSync)(cachePath)) return [3 /*break*/, 1];
-                console.log('folder exist');
+                res.sendFile(cachePath);
                 return [3 /*break*/, 4];
             case 1:
                 _a.trys.push([1, 3, , 4]);
-                return [4 /*yield*/, (0, imageResize_1.default)(filename, height, width)];
+                return [4 /*yield*/, (0, imageResize_1.default)(filename, width, height)];
             case 2:
                 _a.sent();
                 res.sendFile(cachePath);
                 return [3 /*break*/, 4];
             case 3:
                 err_1 = _a.sent();
-                res.status(500).send('invalid width and height, please try again');
+                res.status(500).send('Please provide a valid image file');
                 return [3 /*break*/, 4];
             case 4: return [2 /*return*/];
         }

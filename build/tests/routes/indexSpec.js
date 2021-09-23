@@ -49,7 +49,7 @@ it('testing endpoint for invalid width and height', function () { return __await
     var response;
     return __generator(this, function (_a) {
         switch (_a.label) {
-            case 0: return [4 /*yield*/, request.get('/api/images?fileName=fjord&width=-5&height=-50')];
+            case 0: return [4 /*yield*/, request.get('/api/images?filename=fjord&width=-5&height=-50')];
             case 1:
                 response = _a.sent();
                 expect(response.status).toBe(500);

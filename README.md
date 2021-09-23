@@ -10,7 +10,7 @@ Create an image processing API to resize images provided by the client user. The
 ## Build
   "npm run build" will compile the typescript code into the javascript build folder.
   
-## Tools and Resources Used
+## Tools and Resources
 
 1. Typescript
 
@@ -32,7 +32,7 @@ Create an image processing API to resize images provided by the client user. The
   
   -Once the server is started, you can resize the image by typing in a filename (jpg), width, and height. Width and height need to be positive or else you will get an error.
 
-  i.e http://localhost:4000/api/images?fileName=fjord&width=500&height=500
+  i.e http://localhost:4000/api/images?filename=fjord&width=500&height=500
 
   --The example above will resize the image to 500 x 500. 
 
